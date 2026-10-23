@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#15302a">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}body{margin:0}[hidden]{display:none!important}</style>
+<title>Поймай медведя</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: one-screen fairground stall — score strip on top, barrels fill the rest; single committed evening-forest look */
+:root{
+  --pine:#15302a; --pine-2:#1f4339; --pine-3:#2b5a4c;
+  --wood:#b97c42; --wood-dark:#6a4120;
+  --cream:#f7ecd2; --honey:#f4b740; --berry:#e0504a; --mint:#7fd6a4;
+  --display:"Press Start 2P","Courier New",monospace;
+  --body:"Pixelify Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{
+  background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABVCAYAAAD5cuL2AAAD0klEQVR42u1bMXYqMQzEerRUNHRcIAegps0N/gG5AS01B+ACdDRUHIBU/s/xk2XJli17g5sky26wRjOSLHtXq8/4DLOxPx7e++PhbTkHGAWIPweAtedNAcCMtwLEjAH3y9WNAAJYeX9/PLxjEO6Xq+sNghtR9xg7FsGAzW47XICEnt5/PZ7D1SLQm/r3y9VxKP717/u9mBhAUToX+FrHA7A0foSCCCyNHyEgNgWAG/UtQYCW3h8x6ncBoIXHWmUFWE0yXo9nE2BhFk9NUQf0SmmatUEzCXAyQGmW0AQaWnmfkwE492AgaaVXNQloeCQ0igvM7XR2QzAg5ZHNbpv0oL+euqdXVgAN78ce8wa9Hk/Um/H12+nswr9DQDxA8TUtKbha42Pqbnbb/8Zhn2H3pYzB7sOArpEC1FI/9qafdOqz8DmutFI/NWJQMXK+4Ak9y432lPc5/w8bpSxwGtSXBK4cECn5cDRfAgKUUj82iEPpsILDZJDyfigp7XTsSqkv8c7r8fzV+pLGAIkspCwAKfWlJe3tdHYc4yWSosCTLsaglvo5z4egYcZ7WVBGxd+RY5BECuuSqM+hf3ifD5rhNW84xaoc9amYocoAX+15feUmF3+Wiu4eiPBaihFUtVkjBXEMyNGPSnX+93g9H7OFelYCAkcKIAl88STi8hYzSpoqYxZQ7MmBwJEClKzx/QRTNMc6Nv5eaicoFRe4msZAyElBXAil6Bsaj+39YwGQApyTHVIgxM9QUgDK++FE/aZmfLIrlkV4AELayws/D78/B0IuC1EMAsp4/zOkZkh/DO2UkZxGJsYcKqZQ6fB+uf7qMaSk4DSqqVkGViZDabNyKQNK6boE75NBcEksoGwBKiIvBQSK0VD64OzUZxdCM7OAM3eooc/M1Be3xEoboVZe5zpO5N3SRYoF5bkArGu/0BoETOcS2UKtpiyDZK3xKsthybK0d4RvLoF4MrkNEy25pIwvyVjFKa5mQ1IKhHTXqakEetO3dYypPh9Q83yu568dl9QZUFslani3dg7TnBTt2hCxZgF351hjnaK20NGIB710310CnLRnVVGqAUB5RGpcDjDNJbr6Wr/1gWnt/sQnC4zuodb/G1pOVLNX0ArYphJIHWjIBcCeTRawpCtmrEaTwzQLYFkhd5SFKoymf3UWkwDmeaveYveXpyWnPzXeCBkCgFSBlDoFpvU6zLASwAJeyWmyqQAIa4P4naEYoJ7bcd33/bADVmFc6L0XuV4NMCw3V0x2flOHsHoFPnMAsKxgtQ3/55fDpmN/PLyXeibxM2YZP9fyBs/V/Rq7AAAAAElFTkSuQmCC) center 62%/auto min(78vh,150vw) no-repeat, var(--pine);image-rendering:pixelated;
+  color:var(--cream);font-family:var(--body);
+  overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+.app{height:100%;display:flex;flex-direction:column;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:10px 14px;box-sizing:border-box;gap:10px}
+.hud{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;line-height:1}
+.stat small{font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.65;font-weight:800}
+.stat b{font-family:var(--display);font-size:18px;padding-top:4px;font-weight:400;font-variant-numeric:tabular-nums;color:var(--honey)}
+.hearts{font-size:22px;color:var(--berry);letter-spacing:2px;min-height:26px}
+.hearts .off{color:rgba(247,236,210,.18)}
+.progress{height:6px;background:rgba(0,0,0,.3);border-radius:0;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--honey);transition:width .25s}
+
+.field{flex:1;min-height:0;padding-top:8%;display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:var(--gap,14px);position:relative}
+.slot{position:relative;width:var(--s);height:calc(var(--s)*1.25);cursor:pointer}
+.peek{position:absolute;left:13%;right:13%;top:-34%;height:92%;overflow:hidden;pointer-events:none}
+.char{position:absolute;inset:0;transform:translateY(108%);transition:transform .15s ease-out}
+
+.slot.up .char{transform:translateY(0)}
+.slot.hit .char{transform:translateY(10%) scale(1.12,.82);filter:brightness(1.5) saturate(.6);transition:transform .08s,filter .08s}
+.barrel{position:absolute;left:0;right:0;bottom:0;height:62%;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35))}
+
+.pop{position:absolute;left:50%;top:10%;transform:translateX(-50%);font-family:var(--display);font-size:clamp(9px,calc(var(--s)*.1),14px);
+  white-space:nowrap;pointer-events:none;text-shadow:2px 2px 0 #000;animation:float .8s ease-out forwards;z-index:5}
+.pop.good{color:var(--honey)} .pop.bad{color:var(--berry)} .pop.life{color:var(--mint)}
+@keyframes float{from{opacity:1;transform:translate(-50%,0) scale(1.15)}to{opacity:0;transform:translate(-50%,-60px) scale(.9)}}
+
+.banner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:8}
+.banner div{background:var(--honey);color:var(--wood-dark);font-family:var(--display);padding:14px 22px;border-radius:0;text-align:center;
+  font-size:15px;line-height:1.4;box-shadow:0 6px 0 var(--wood-dark);animation:bump .35s ease-out}
+.banner span{display:block;font-family:var(--body);font-weight:700;font-size:16px;margin-top:6px}
+@keyframes bump{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.flash{animation:flash .35s}
+.toast{position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--mint);color:var(--pine);font-family:var(--display);font-size:11px;padding:10px 12px;border-radius:0;pointer-events:none;z-index:7;white-space:nowrap;animation:bump .3s ease-out}
+@keyframes flash{0%,100%{background-color:transparent}30%{background-color:rgba(224,80,74,.25)}}
+
+.overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;
+  background:rgba(10,24,20,.86);backdrop-filter:blur(3px);
+  padding:calc(16px + env(safe-area-inset-top,0px)) max(16px, env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-left,0px));overflow-y:auto}
+.card{width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px;margin:auto}
+.card h1{font-family:var(--display);font-weight:400;font-size:clamp(18px,5.6vw,26px);line-height:1.35;margin:0;color:var(--honey);text-wrap:balance;text-shadow:0 4px 0 var(--wood-dark)}
+.card p{margin:0;font-size:17px;line-height:1.45;opacity:.9}
+.legend{display:grid;gap:8px}
+.row{display:grid;grid-template-columns:46px 1fr auto;align-items:center;gap:10px;background:rgba(247,236,210,.06);border-radius:0;padding:6px 10px 6px 6px}
+.row svg{width:46px;height:46px}
+.row b{display:block;font-size:17px}
+.row small{font-size:14px;opacity:.7}
+.row em{font-style:normal;font-family:var(--display);font-size:10px;white-space:nowrap}
+.row em.g{color:var(--honey)} .row em.r{color:var(--berry)} .row em.m{color:var(--mint)}
+.btn{appearance:none;border:0;background:var(--honey);color:var(--wood-dark);font-family:var(--display);font-size:15px;padding:18px 16px;border-radius:0;
+  box-shadow:0 6px 0 var(--wood-dark);cursor:pointer;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--wood-dark)}
+.btn:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
+.big{font-family:var(--display);font-size:34px;color:var(--honey);line-height:1}
+.muted{opacity:.7;font-size:16px}
+canvas.px{width:100%;height:100%;display:block;image-rendering:crisp-edges;image-rendering:pixelated}
+.row .ico{width:46px;height:46px;display:block}
+.hearts span{display:inline-block}
+@media (prefers-reduced-motion: reduce){.char{transition:none}.pop{animation-duration:.01s}.banner div{animation:none}}
+</style>
+
+</head>
+<body>
+<div class="app" id="app">
+  <div class="hud">
+    <div class="stat"><small>Очки</small><b id="score">0</b></div>
+    <div class="stat" style="align-items:center"><small>Уровень</small><b id="level">1</b></div>
+    <div class="hearts" id="hearts" aria-label="Жизни"></div>
+  </div>
+  <div class="progress"><i id="prog"></i></div>
+  <div class="field" id="field"></div>
+</div>
+
+<div class="overlay" id="start">
+  <div class="card">
+    <h1>Поймай медведя</h1>
+    <p>Тапай по медведю, пока он не спрятался. Упустил медведя (одного или в компании) — минус жизнь. Каждые 8 медведей открывают новый уровень и ещё одну бочку, до десяти. С уровнями приходят новые гости.</p>
+    <div class="legend" id="legend"></div>
+    <button class="btn" id="play">Играть</button>
+    <div class="muted" id="bestStart"></div>
+  </div>
+</div>
+
+<div class="overlay" id="over" hidden>
+  <div class="card" style="text-align:center">
+    <h1>Медведь победил</h1>
+    <div class="big" id="final">0</div>
+    <p id="overInfo"></p>
+    <button class="btn" id="again">Ещё раз</button>
+  </div>
+</div>
+
+<script>
+(function(){
+const FUR='#7a4827', FUR_D='#5c331a', MUZ='#d9a66f';
+function earPair(c,inner){return `<circle cx="20" cy="28" r="14" fill="${c}"/><circle cx="20" cy="28" r="7" fill="${inner}"/><circle cx="80" cy="28" r="14" fill="${c}"/><circle cx="80" cy="28" r="7" fill="${inner}"/>`}
+function eyes(y=50,dx=14){return `<circle cx="${50-dx}" cy="${y}" r="5" fill="#1a1008"/><circle cx="${50+dx}" cy="${y}" r="5" fill="#1a1008"/><circle cx="${48-dx}" cy="${y-2}" r="1.6" fill="#fff"/><circle cx="${48+dx}" cy="${y-2}" r="1.6" fill="#fff"/>`}
+const SVG={
+ bear:`<svg viewBox="0 0 100 100"><path d="M6 100 Q10 84 30 82 L70 82 Q90 84 94 100 Z" fill="#2fc6c8"/><path d="M40 82 Q50 90 60 82" stroke="#1d9a9c" stroke-width="3" fill="none"/><ellipse cx="50" cy="60" rx="34" ry="31" fill="${FUR}"/><ellipse cx="50" cy="73" rx="17" ry="13" fill="${MUZ}"/><ellipse cx="50" cy="66" rx="6.5" ry="4.5" fill="#2a1a10"/><path d="M36 74 Q50 93 64 74 Z" fill="#3a1208"/><path d="M38 75 L62 75 L60 79 L40 79 Z" fill="#fff"/><rect x="19" y="46" width="28" height="13" rx="4" fill="#0e0e10"/><rect x="53" y="46" width="28" height="13" rx="4" fill="#0e0e10"/><path d="M46 50 h8" stroke="#0e0e10" stroke-width="3"/><path d="M23 49 h7 M57 49 h7" stroke="#6b7884" stroke-width="2.5"/><ellipse cx="50" cy="38" rx="43" ry="8" fill="#151517"/><path d="M24 39 Q24 10 50 10 Q76 10 76 39 Z" fill="#232326"/></svg>`,
+ ex:`<svg viewBox="0 0 100 100">${earPair('#a0623b','#e2a3a0')}<ellipse cx="50" cy="62" rx="38" ry="37" fill="#a0623b"/><path d="M40 20 L50 27 L40 34 Z M60 20 L50 27 L60 34 Z" fill="#e0504a"/><circle cx="50" cy="27" r="4" fill="#b8302b"/><ellipse cx="50" cy="74" rx="18" ry="14" fill="#e6b88a"/><ellipse cx="50" cy="67" rx="6" ry="4.5" fill="#2a1a10"/><ellipse cx="50" cy="80" rx="7" ry="3.5" fill="#d32f45"/>${eyes(54)}<path d="M28 42 L44 47 M72 42 L56 47" stroke="#2a1a10" stroke-width="3.5" stroke-linecap="round"/><path d="M31 54 l-4 -3 M69 54 l4 -3" stroke="#1a1008" stroke-width="2"/></svg>`,
+ cub:`<svg viewBox="0 0 100 100"><circle cx="28" cy="46" r="11" fill="#9b6236"/><circle cx="72" cy="46" r="11" fill="#9b6236"/><circle cx="28" cy="46" r="5" fill="#e0ab7c"/><circle cx="72" cy="46" r="5" fill="#e0ab7c"/><ellipse cx="50" cy="72" rx="28" ry="27" fill="#9b6236"/><ellipse cx="50" cy="82" rx="12" ry="9" fill="#e8c094"/><ellipse cx="50" cy="77" rx="5" ry="3.5" fill="#2a1a10"/><circle cx="40" cy="66" r="4.5" fill="#1a1008"/><circle cx="60" cy="66" r="4.5" fill="#1a1008"/><circle cx="39" cy="64.5" r="1.5" fill="#fff"/><circle cx="59" cy="64.5" r="1.5" fill="#fff"/><circle cx="33" cy="76" r="3.5" fill="#f08b8b" opacity=".6"/><circle cx="67" cy="76" r="3.5" fill="#f08b8b" opacity=".6"/></svg>`,
+ mil:`<svg viewBox="0 0 100 100">${earPair('#8a6c58','#c9a58a')}<ellipse cx="50" cy="62" rx="38" ry="37" fill="#8a6c58"/><rect x="26" y="20" width="12" height="18" rx="6" fill="#f08bb8"/><rect x="44" y="16" width="12" height="18" rx="6" fill="#8bc4f0"/><rect x="62" y="20" width="12" height="18" rx="6" fill="#f08bb8"/><ellipse cx="50" cy="75" rx="17" ry="13" fill="#d2b298"/><ellipse cx="50" cy="68" rx="6" ry="4.5" fill="#2a1a10"/><path d="M42 83 Q50 77 58 83" stroke="#2a1a10" stroke-width="2.5" fill="none" stroke-linecap="round"/>${eyes(52)}<circle cx="36" cy="52" r="10" fill="none" stroke="#e8e0d0" stroke-width="3"/><circle cx="64" cy="52" r="10" fill="none" stroke="#e8e0d0" stroke-width="3"/><path d="M46 52 h8" stroke="#e8e0d0" stroke-width="3"/></svg>`,
+ lover:`<svg viewBox="0 0 100 100"><path d="M14 100 Q8 40 50 14 Q92 40 86 100 Z" fill="#f6d36b"/><ellipse cx="50" cy="60" rx="27" ry="32" fill="#f5c9a6"/><path d="M22 52 Q30 18 52 18 Q76 18 80 50 Q66 34 50 40 Q34 30 22 52 Z" fill="#fbe08a"/><path d="M33 52 Q38 48 44 52" stroke="#2a1a10" stroke-width="2" fill="none"/><path d="M56 52 Q62 48 67 52" stroke="#2a1a10" stroke-width="2" fill="none"/><ellipse cx="39" cy="56" rx="4" ry="4.5" fill="#3b8fd9"/><ellipse cx="61" cy="56" rx="4" ry="4.5" fill="#3b8fd9"/><circle cx="39" cy="56" r="1.8" fill="#123"/><circle cx="61" cy="56" r="1.8" fill="#123"/><path d="M33 50 l-3 -3 M35 49 l-1 -4 M67 50 l3 -3 M65 49 l1 -4" stroke="#2a1a10" stroke-width="1.5"/><path d="M42 75 Q50 71 58 75 Q50 82 42 75 Z" fill="#d6203c"/><circle cx="33" cy="67" r="4" fill="#f59a9a" opacity=".6"/><circle cx="67" cy="67" r="4" fill="#f59a9a" opacity=".6"/><circle cx="60" cy="69" r="1.3" fill="#5a3020"/><circle cx="23" cy="72" r="3" fill="#f4b740"/><circle cx="77" cy="72" r="3" fill="#f4b740"/></svg>`,
+ honey:`<svg viewBox="0 0 100 100"><path d="M26 40 Q14 60 22 86 Q30 98 50 98 Q70 98 78 86 Q86 60 74 40 Z" fill="#c9782a"/><rect x="24" y="30" width="52" height="12" rx="5" fill="#8c4f18"/><path d="M28 30 Q30 20 40 22 Q50 14 60 22 Q72 20 72 30 Z" fill="#f4b740"/><path d="M38 42 v8 a3 3 0 0 0 6 0 v-8 M60 42 v12 a3 3 0 0 0 6 0 v-12" fill="#f4b740"/><rect x="32" y="58" width="36" height="20" rx="3" fill="#f7ecd2"/><text x="50" y="73" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="12" fill="#8c4f18">МЁД</text></svg>`
+};
+function cubHead(fur,muz,extra=''){return `<svg viewBox="0 0 100 100"><circle cx="28" cy="46" r="11" fill="${fur}"/><circle cx="72" cy="46" r="11" fill="${fur}"/><circle cx="28" cy="46" r="5" fill="${muz}"/><circle cx="72" cy="46" r="5" fill="${muz}"/><ellipse cx="50" cy="72" rx="28" ry="27" fill="${fur}"/><ellipse cx="50" cy="82" rx="12" ry="9" fill="${muz}"/><ellipse cx="50" cy="77" rx="5" ry="3.5" fill="#2a1a10"/><circle cx="40" cy="66" r="4.5" fill="#1a1008"/><circle cx="60" cy="66" r="4.5" fill="#1a1008"/><circle cx="39" cy="64.5" r="1.5" fill="#fff"/><circle cx="59" cy="64.5" r="1.5" fill="#fff"/><circle cx="33" cy="76" r="3.5" fill="#f08b8b" opacity=".6"/><circle cx="67" cy="76" r="3.5" fill="#f08b8b" opacity=".6"/>${extra}</svg>`}
+SVG.exBoy=cubHead('#8e5530','#dcae84','<path d="M23 56 Q24 36 50 36 Q76 36 77 56 Z" fill="#3b7dd8"/><path d="M50 52 h34 a4 4 0 0 1 0 7 h-34 Z" fill="#2a5fae"/><circle cx="50" cy="37" r="3" fill="#f7ecd2"/>');
+SVG.exGirl=cubHead('#a86a40','#f0c39a','<g fill="#f07fb0"><path d="M18 36 l10 8 l-10 8 Z M38 36 l-10 8 l10 8 Z"/><path d="M62 36 l10 8 l-10 8 Z M82 36 l-10 8 l10 8 Z"/></g><circle cx="28" cy="44" r="3" fill="#c94a85"/><circle cx="72" cy="44" r="3" fill="#c94a85"/><path d="M35 63 l-3 -2 M65 63 l3 -2" stroke="#1a1008" stroke-width="1.5"/><path d="M45 88 Q50 91 55 88" stroke="#d6203c" stroke-width="2.5" fill="none" stroke-linecap="round"/>');
+SVG.partner=`<svg viewBox="0 0 100 100">${earPair('#b8783f','#f0c09a')}<ellipse cx="50" cy="62" rx="38" ry="37" fill="#b8783f"/><g fill="#fff"><circle cx="80" cy="18" r="6"/><circle cx="89" cy="25" r="6"/><circle cx="86" cy="35" r="6"/><circle cx="75" cy="35" r="6"/><circle cx="71" cy="25" r="6"/></g><circle cx="80" cy="27" r="5" fill="#f4b740"/><ellipse cx="50" cy="74" rx="18" ry="14" fill="#efc89c"/><ellipse cx="50" cy="67" rx="6" ry="4.5" fill="#2a1a10"/><path d="M42 82 Q50 78 58 82" stroke="#2a1a10" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M28 45 L43 43 M72 45 L57 43" stroke="#2a1a10" stroke-width="3" stroke-linecap="round"/><circle cx="28" cy="68" r="5" fill="#f08b8b" opacity=".55"/><circle cx="72" cy="68" r="5" fill="#f08b8b" opacity=".55"/>${eyes(53)}</svg>`;
+const inner=s=>s.replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'');
+SVG.pair=`<svg viewBox="0 0 100 100"><g transform="translate(-4,34) scale(.62)">${inner(SVG.lover)}</g><g transform="translate(40,30) scale(.66)">${inner(SVG.bear)}</g><path d="M47 22 c-4 -6 -12 -2 -8 4 l8 8 l8 -8 c4 -6 -4 -10 -8 -4 Z" fill="#e0504a"/></svg>`;
+SVG.partnerPair=`<svg viewBox="0 0 100 100"><g transform="translate(-4,32) scale(.62)">${inner(SVG.partner)}</g><g transform="translate(40,30) scale(.66)">${inner(SVG.bear)}</g><path d="M52 6 L44 20 L51 20 L45 32 L58 16 L51 16 L56 6 Z" fill="#f4b740" stroke="#6a4120" stroke-width="1.5"/></svg>`;
+SVG.trio=`<svg viewBox="0 0 100 100"><g transform="translate(-8,26) scale(.56)">${inner(SVG.partner)}</g><g transform="translate(50,24) scale(.58)">${inner(SVG.bear)}</g><g transform="translate(14,32) scale(.72)">${inner(SVG.cub)}</g></svg>`;
+SVG.sonPair=`<svg viewBox="0 0 100 100"><g transform="translate(-4,30) scale(.72)">${inner(SVG.cub)}</g><g transform="translate(40,30) scale(.66)">${inner(SVG.bear)}</g></svg>`;
+SVG.exKids=`<svg viewBox="0 0 100 100"><g transform="translate(22,6) scale(.56)">${inner(SVG.ex)}</g><g transform="translate(-14,34) scale(.62)">${inner(SVG.exGirl)}</g><g transform="translate(52,34) scale(.62)">${inner(SVG.exBoy)}</g></svg>`;
+SVG.family=`<svg viewBox="0 0 100 100"><g transform="translate(-10,8) scale(.6)">${inner(SVG.exGirl)}</g><g transform="translate(50,8) scale(.6)">${inner(SVG.exBoy)}</g><g transform="translate(18,22) scale(.66)">${inner(SVG.bear)}</g></svg>`;
+const BARREL=`<svg viewBox="0 0 100 90" preserveAspectRatio="none"><path d="M8 10 Q2 45 8 82 Q50 92 92 82 Q98 45 92 10 Z" fill="#b97c42"/><g stroke="#8a5629" stroke-width="1.5" opacity=".7"><path d="M24 12 Q20 46 24 86"/><path d="M40 13 Q38 46 40 88"/><path d="M60 13 Q62 46 60 88"/><path d="M76 12 Q80 46 76 86"/></g><path d="M5 26 Q50 34 95 26 L95 33 Q50 41 5 33 Z" fill="#4a4844"/><path d="M5 62 Q50 70 95 62 L95 69 Q50 77 5 69 Z" fill="#4a4844"/><ellipse cx="50" cy="10" rx="43" ry="8" fill="#6a4120"/><ellipse cx="50" cy="10" rx="36" ry="5" fill="#2a1a0e"/><path d="M14 18 Q12 45 15 75" stroke="#fff" stroke-width="3" opacity=".15" fill="none"/></svg>`;
+
+const TYPES={
+ bear:{name:'Медведь',sub:'Главный герой',pts:10,dur:1,w:70,min:1,tag:'+10',cls:'g'},
+ lover:{name:'Любовница-блондинка',sub:'Редкая и быстрая',pts:50,dur:.7,w:6,min:2,tag:'+50',cls:'g'},
+ pair:{name:'Медведь с любовницей',sub:'Не упусти! Если рядом торчит бывшая — очки ×2',pts:80,dur:.85,w:5,min:3,tag:'+80',cls:'g'},
+ partnerPair:{name:'Медведь с партнёршей',sub:'Без сына опять ругаются. Не упусти',pts:20,dur:.95,w:6,min:2,tag:'+20',cls:'g'},
+ ex:{name:'Бывшая жена',sub:'Медведица. Не трогай — алименты',pts:-30,dur:1.25,w:8,min:3,tag:'−30',cls:'r',bad:true,say:'Алименты!'},
+ exKids:{name:'Бывшая с детьми',sub:'Не трогай — алименты вдвойне',pts:-60,dur:1.3,w:6,min:4,tag:'−60',cls:'r',bad:true,say:'Алименты ×2!'},
+ cub:{name:'Сын, 7 лет',sub:'От партнёрши. Шустрый',pts:20,dur:.6,w:11,min:4,tag:'+20',cls:'g'},
+ sonPair:{name:'Папа с сыном',sub:'Медведь с семилеткой. Не упусти',pts:40,dur:.9,w:6,min:4,tag:'+40',cls:'g'},
+ trio:{name:'Втроём ради сына',sub:'Медведь, партнёрша и сын. Держатся только на нём',pts:60,dur:.95,w:6,min:3,tag:'+60',cls:'g'},
+ honey:{name:'Горшок мёда',sub:'Очень редкий',pts:25,life:1,dur:.55,w:3,min:6,tag:'+♥',cls:'m'},
+ family:{name:'Семейный отдых',sub:'Медведь, партнёрша, сын и дети от бывшей в соседних бочках. Медведь +100, остальные +15',pts:100,w:4,min:5,tag:'+100',cls:'g'},
+ partner:{name:'Партнёрша',pts:15,dur:1,w:0,legend:false},
+ exBoy:{name:'Сын от бывшей',pts:15,dur:1,w:0,legend:false},
+ exGirl:{name:'Дочь от бывшей',pts:15,dur:1,w:0,legend:false}
+};
+const BEARISH=['bear','pair','partnerPair','sonPair','trio'];
+const BEARS_PER_LEVEL=8, MAX_LIVES=5;
+
+const $=id=>document.getElementById(id);
+const field=$('field');
+let S=null, slots=[], spawnT=null, audio=null;
+
+let best=0; try{best=+localStorage.getItem('bearBest')||0}catch(e){}
+const RES=40;
+function rasterize(svg,w,h){return new Promise(res=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(img,0,0,w,h);
+  try{const d=x.getImageData(0,0,w,h),a=d.data;for(let i=3;i<a.length;i+=4)a[i]=a[i]>100?255:0;x.putImageData(d,0,0)}catch(e){}res(c)};img.onerror=()=>res(null);
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg.replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '))})}
+const SPR={};
+function sprite(k){const src=SPR[k],c=document.createElement('canvas');c.className='px';if(!src)return c;c.width=src.width;c.height=src.height;c.getContext('2d').drawImage(src,0,0);return c}
+$('legend').innerHTML=Object.entries(TYPES).filter(([k,t])=>t.legend!==false).map(([k,t])=>`<div class="row"><span class="ico" data-k="${k}"></span><div><b>${t.name}</b><small>${t.sub} · с ${t.min} ур.</small></div><em class="${t.cls}">${t.tag}</em></div>`).join('');
+function showBest(){$('bestStart').textContent=best?`Рекорд: ${best}`:''}
+showBest();
+
+function beep(f,d=.08,type='square',vol=.06){
+  if(!audio)return;
+  try{const o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.value=f;g.gain.value=vol;
+  o.connect(g);g.connect(audio.destination);const t=audio.currentTime;g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d)}catch(e){}
+}
+
+const barrelsFor=l=>Math.min(10,l+2);
+const colsFor=n=>({3:3,4:2,5:3,6:3,7:4,8:4,9:3,10:4})[n]||3;
+
+function build(){
+  const n=barrelsFor(S.level);
+  field.innerHTML='';slots=[];
+  for(let i=0;i<n;i++){
+    const el=document.createElement('div');el.className='slot';
+    el.innerHTML=`<div class="peek"><div class="char"></div></div><div class="barrel"></div>`;el.querySelector('.barrel').appendChild(sprite('barrel'));
+    const s={el,ch:el.querySelector('.char'),type:null,up:false,timer:null};
+    el.addEventListener('pointerdown',e=>{e.preventDefault();tap(s)});
+    field.appendChild(el);slots.push(s);
+  }
+  layout();
+}
+function layout(){
+  if(!slots.length)return;
+  const n=slots.length,cols=colsFor(n),rows=Math.ceil(n/cols);
+  const r=field.getBoundingClientRect(),gap=Math.max(8,Math.min(18,r.width*.03));
+  const s=Math.max(50,Math.min(170,(r.width-gap*(cols-1))/cols,((r.height-gap*(rows-1))/rows)/1.25));
+  field.style.setProperty('--s',s+'px');field.style.setProperty('--gap',gap+'px');
+}
+addEventListener('resize',layout);
+
+function hud(){
+  $('score').textContent=S.score;$('level').textContent=S.level;
+  $('hearts').innerHTML=Array.from({length:Math.max(3,S.lives)},(_,i)=>`<span class="${i<S.lives?'':'off'}">♥</span>`).join('');
+  $('prog').style.width=(S.bearsThisLevel/BEARS_PER_LEVEL*100)+'%';
+}
+function popText(s,txt,cls){
+  const p=document.createElement('div');p.className='pop '+cls;p.textContent=txt;s.el.appendChild(p);
+  setTimeout(()=>p.remove(),800);
+}
+
+function pickType(){
+  const pool=Object.entries(TYPES).filter(([k,t])=>t.w>0&&t.min<=S.level);
+  let sum=pool.reduce((a,[,t])=>a+t.w,0),r=Math.random()*sum;
+  for(const [k,t] of pool){if((r-=t.w)<0)return k}
+  return 'bear';
+}
+const upTime=()=>Math.max(520,1500-(S.level-1)*105);
+const gapTime=()=>Math.max(360,1100-(S.level-1)*80);
+const maxUp=()=>Math.min(slots.length-1,1+Math.floor((S.level-1)/2));
+
+function schedule(){clearTimeout(spawnT);if(!S.running||S.paused)return;spawnT=setTimeout(spawn,gapTime()*(.7+Math.random()*.6))}
+function spawn(){
+  if(!S.running||S.paused)return;
+  const free=slots.filter(s=>!s.up&&!s.type);
+  if(free.length&&slots.filter(s=>s.up).length<maxUp()){
+    let k=pickType();
+    if(k==='family'&&!spawnFamily())k='bear';
+    if(k!=='family'){const s=free[Math.floor(Math.random()*free.length)];show(s,k,upTime()*TYPES[k].dur)}
+  }
+  schedule();
+}
+function show(s,k,ms,fam){
+  s.type=k;s.family=!!fam;s.ch.replaceChildren(sprite(k));
+  requestAnimationFrame(()=>{s.up=true;s.el.classList.add('up')});
+  s.timer=setTimeout(()=>escape(s),ms);
+}
+function spawnFamily(){
+  let best=[],run=[];
+  for(const s of slots){if(!s.up&&!s.type){run.push(s);if(run.length>best.length)best=run.slice()}else run=[]}
+  if(best.length<3)return false;
+  const order=['exGirl','cub','bear','partner','exBoy'],L=Math.min(5,best.length),from=Math.floor((5-L)/2);
+  const off=Math.floor(Math.random()*(best.length-L+1)),ms=upTime()*1.4;
+  order.slice(from,from+L).forEach((k,i)=>show(best[off+i],k,ms,true));
+  toast('Семейный отдых!');
+  return true;
+}
+function toast(txt){const b=document.createElement('div');b.className='toast';b.textContent=txt;field.appendChild(b);setTimeout(()=>b.remove(),1400)}
+function hide(s){
+  clearTimeout(s.timer);s.up=false;s.el.classList.remove('up','hit');
+  setTimeout(()=>{if(!s.up){s.type=null;s.family=false}},170);
+}
+function escape(s){
+  if(!s.up)return;
+  const k=s.type;hide(s);
+  if(BEARISH.includes(k)&&S.running){
+    S.lives--;popText(s,'Ушёл!','bad');beep(140,.2,'sawtooth');
+    document.getElementById('app').classList.remove('flash');void field.offsetWidth;document.getElementById('app').classList.add('flash');
+    hud();if(S.lives<=0)gameOver();
+  }
+}
+function tap(s){
+  if(!S||!S.running||S.paused||!s.up)return;
+  const t=TYPES[s.type],k=s.type;
+  clearTimeout(s.timer);s.up=false;s.el.classList.add('hit');
+  setTimeout(()=>hide(s),150);
+  let pts=t.pts,txt=null;
+  if(s.family&&k==='bear'){pts=100;txt='Отдыхаем! +100'}
+  if(k==='pair'){const caught=slots.some(o=>o!==s&&o.up&&(o.type==='ex'||o.type==='exKids'));if(caught){pts*=2;txt='Застукала! +'+pts}else txt='Попался! +'+pts}
+  if(k==='partnerPair')txt='Опять скандал! +'+pts;
+  if(k==='trio')txt='Ради сына! +'+pts;
+  if(k==='sonPair')txt='С сыном! +'+pts;
+  S.score=Math.max(0,S.score+pts);
+  if(t.life)S.lives=Math.min(MAX_LIVES,S.lives+t.life);
+  if(t.bad){popText(s,t.say,'bad');beep(180,.18,'sawtooth')}
+  else if(k==='honey'){popText(s,'+25 +♥','life');beep(880,.12,'triangle');setTimeout(()=>beep(1175,.12,'triangle'),90)}
+  else if(txt){popText(s,txt,'good');beep(600,.07);setTimeout(()=>beep(990,.1),80)}
+  else{popText(s,'+'+pts,'good');beep(k==='lover'?990:k==='cub'?760:600,.07)}
+  if(BEARISH.includes(k)){S.bearsThisLevel++;if(S.bearsThisLevel>=BEARS_PER_LEVEL){hud();return levelUp()}}
+  hud();if(S.lives<=0)gameOver();
+}
+function levelUp(){
+  S.paused=true;clearTimeout(spawnT);
+  slots.forEach(s=>{clearTimeout(s.timer);hide(s)});
+  S.level++;S.bearsThisLevel=0;
+  const newcomers=Object.values(TYPES).filter(t=>t.min===S.level).map(t=>t.name.toLowerCase());
+  const n=barrelsFor(S.level);
+  setTimeout(()=>{
+    build();hud();
+    const b=document.createElement('div');b.className='banner';
+    b.innerHTML=`<div>Уровень ${S.level}<span>${newcomers.length?'Новые: '+newcomers.join(', '):(n<10?n+' бочек':'Быстрее!')}</span></div>`;
+    field.appendChild(b);beep(660,.1,'triangle');setTimeout(()=>beep(990,.15,'triangle'),110);
+    setTimeout(()=>{b.remove();S.paused=false;schedule()},1500);
+  },250);
+}
+function gameOver(){
+  S.running=false;clearTimeout(spawnT);
+  slots.forEach(s=>{clearTimeout(s.timer);hide(s)});
+  const rec=S.score>best;if(rec){best=S.score;try{localStorage.setItem('bearBest',best)}catch(e){}}
+  $('final').textContent=S.score;
+  $('overInfo').textContent=(rec?'Новый рекорд! ':`Рекорд: ${best}. `)+`Дошёл до ${S.level} уровня.`;
+  setTimeout(()=>{$('over').hidden=false;$('again').focus()},500);
+}
+function start(){
+  if(!audio){try{audio=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}
+  $('start').hidden=true;$('over').hidden=true;
+  S={score:0,level:1,lives:3,bearsThisLevel:0,running:true,paused:false};
+  build();hud();setTimeout(schedule,500);
+}
+$('play').addEventListener('click',start);
+$('again').addEventListener('click',start);
+document.addEventListener('visibilitychange',()=>{
+  if(!S||!S.running)return;
+  if(document.hidden){S.paused=true;clearTimeout(spawnT);slots.forEach(s=>{clearTimeout(s.timer);hide(s)})}
+  else{S.paused=false;schedule()}
+});
+// idle preview: show a bear peeking behind the start screen
+Promise.all([...Object.keys(SVG).map(k=>rasterize(SVG[k],RES,RES).then(c=>SPR[k]=c)),rasterize(BARREL,30,26).then(c=>SPR.barrel=c)]).then(()=>{
+  document.querySelectorAll('.ico').forEach(e=>e.appendChild(sprite(e.dataset.k)));
+  if(S&&S.running)return;
+  S={score:0,level:1,lives:3,bearsThisLevel:0,running:false,paused:true};build();hud();
+  slots[1].ch.replaceChildren(sprite('bear'));slots[1].el.classList.add('up');
+});
+})();
+</script>
+
+</body>
+</html>
